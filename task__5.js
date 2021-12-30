@@ -1,56 +1,60 @@
 class ElectricalDevices {
-constructor(name){
-    this.voltage = 220,
-    this.type = 'electrical',
-    this.name = name
-  }
-getPower(amperage){
-    console.log('Мощность прибора '+this.name+' равна '+amperage*this.voltage)
-}
+    constructor(name, power){
+        this.name = name,
+        this.power = power,
+        this.isPlugged = false,
+      }
+    getPower() {
+        console.log('Мощность прибора '+this.name+' равна '+this.power+' Вт')
+    }
+    
+    on() {
+        console.log(`Включен ${this.name}`),
+        this.isPlugged = true
+    }
+    
+    off() {
+        console.log(`Выключен ${this.name}`)
+        this.isPlugged = false
+    }
+      
+    getScreen(){
+        console.log('Диагональ экрана компьютера '+this.screen+ ' дюймов')
+    }
 
-on(){
-    console.log(`Включен ${this.name}`)
-}
+    lowBrightness(){
+        console.log('Уменьшаем яркость лампы '+this.name)
+      }
 
-off(){
-    console.log(`Выключен ${this.name}`)
-}
 }
 class ComputerEngineering extends ElectricalDevices{
-    constructor(name, screen){
+    constructor(name, screen, power){
     this.name = name,
-    this.screen = screen
-  }
-getScreen(){
-    console.log('Диагональ экрана компьютера '+this.screen)
-  }
+    this.screen = screen,
+    this.power = power
+    }
 }
-
 class Lamp extends ElectricalDevices{
-      constructor(name, lightColor){
+    constructor(name, lightColor, power){
     this.name = name,
-    this.lightColor = lightColor
-  }
- lowBrightness(){
-    console.log('Уменьшаем яркость лампы '+this.name)
-  }
+    this.lightColor = lightColor,
+    this.power = power,
+    }
 }
-
-const notebook = new ElectricalDevices('Notebook');
-const pc = new ComputerEngineering('Personal computer', 17);
-const ledLamp = new Lamp('Led lamp', 'multicolored');
-const incandescentLamp = new Lamp('Incandescent lamp', 'yellow');
-  
+const notebook = new ElectricalDevices('Notebook', 24, 100);
+const pc = new ComputerEngineering('Personal computer', 17, 1000);
+const ledLamp = new Lamp('Led lamp', 'multicolored',10);
+const incandescentLamp = new Lamp('Incandescent lamp', 'yellow', 100);
+      
 notebook.on();
 pc.on();
 ledLamp.off();
 incandescentLamp.on();
-pc.getPower(4);
-incandescentLamp.getPower(1);
-ledLamp.getPower(0.1);
+pc.getPower();
+incandescentLamp.getPower();
+ledLamp.getPower();
 ledLamp.lowBrightness();
 incandescentLamp.lowBrightness();
 notebook.getScreen();
 pc.getScreen();    
-  
-  
+      

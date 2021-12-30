@@ -24,59 +24,69 @@
 //а экземпляр конкретную реализацию);
 //использование синтаксиса es6 (кроме функции-конструкторов) и т.д.
 
-function ElectricalDevices(name){
-    this.voltage = 220,
+function ElectricalDevices(name, power){
+    this.power = power,
     this.type = 'electrical',
-    this.name = name
+    this.name = name,
+    this.isPlugged = false
   }
     
-  ElectricalDevices.prototype.getPower = function(amperage){
-      console.log('Мощность прибора '+this.name+' равна '+amperage*this.voltage)
+  ElectricalDevices.prototype.getPower = function(){
+      console.log('Мощность прибора '+this.name+' равна '+this.power+' Вт');
   }
   
   ElectricalDevices.prototype.on = function(){
-      console.log(`Включен ${this.name}`)
+      console.log(`Включено ${this.name}`);
+      this.isPlugged = true
   }
   
   ElectricalDevices.prototype.off = function(){
-      console.log(`Выключен ${this.name}`)
+      console.log(`Отключено ${this.name}`);
+      this.isPlugged = false
   }
     
-  function ComputerEngineering(name, screen){
-    this.name = name,
-    this.screen = screen
+  function ComputerEngineering(name, screen, power){
+    this.name = name;
+    this.screen = screen;
+    this.power = power;
   }
   
   ComputerEngineering.prototype = new ElectricalDevices();
   
-  ComputerEngineering.getScreen = function(){
-    console.log('Диагональ экрана компьютера '+this.screen)
+  ElectricalDevices.prototype.getScreen = function(){
+    console.log('Диагональ экрана компьютера '+this.screen+ ' дюймов')
   }
   
-  function Lamp(name, lightColor){
-    this.name = name,
-    this.lightColor = lightColor
+  function Lamp(name, lightColor, power){
+    this.name = name;
+    this.lightColor = lightColor;
+    this.power = power;
+    this.getLight = function(){
+      console.log(this.lightColor)
+    }
   }
   
   Lamp.prototype = new ElectricalDevices();
   
-  Lamp.prototype.lowBrightness = function(){
-    console.log('Уменьшаем яркость лампы '+this.name)
-  } 
-  
-  const notebook = new ElectricalDevices('Notebook');
-  const pc = new ComputerEngineering('Personal computer', 17);
-  const ledLamp = new Lamp('Led lamp', 'multicolored');
-  const incandescentLamp = new Lamp('Incandescent lamp', 'yellow');
-  
+  ElectricalDevices.prototype.lowBrightness = function(){
+    console.log('Уменьшаем яркость лампы '+this.name+' цвета '+this.lightColor)
+  }
+
+  const notebook = new ComputerEngineering('Notebook',24,100);
+  const pc = new ComputerEngineering('Personal computer', 17, 1000);
+  const ledLamp = new Lamp('Led lamp', 'multicolored', 10);
+  const incandescentLamp = new Lamp('Incandescent lamp', 'yellow', 100);
+
+  incandescentLamp.getLight();
+  ledLamp.getLight();
   notebook.on();
   pc.on();
   ledLamp.off();
   incandescentLamp.on();
-  pc.getPower(4);
-  incandescentLamp.getPower(1);
-  ledLamp.getPower(0.1);
+  pc.getPower();
+  incandescentLamp.getPower();
+  ledLamp.getPower();
   ledLamp.lowBrightness();
   incandescentLamp.lowBrightness();
   notebook.getScreen();
-  pc.getScreen();//??????
+  pc.getScreen();
